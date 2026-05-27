@@ -1,0 +1,3 @@
+*5. Deploy*
+
+Push to GitHub → Import to Vercel → Add `DATABASE_URL` in Vercel env vars → Deploy.
