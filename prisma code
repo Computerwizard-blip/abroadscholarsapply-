@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  name String?
+  password String?
+  role Role @default(USER)
+  profile Profile?
+  applications Application[]
+  bookmarks Bookmark[]
+  documents Document[]
+  createdAt DateTime @default(now())
+}
+
+model Profile {
+  id String @id @default(cuid())
+  userId String @unique
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  degreeLevel String?
+  fieldOfStudy String?
+  gpa Float?
+  ieltsScore Float?
+  toeflScore Float?
+  budget Int?
+  countryPrefs String[]
+  interests String[]
+}
+
+model Scholarship {
+  id String @id @default(cuid())
+  title String
+  university String
+  country String
+  degreeLevel String
+  field String[]
+  fundingType String
+  amount Int?
+  deadline DateTime
+  link String
+  verified Boolean @default(false)
+  featured Boolean @default(false)
+  description String @db.Text
+  requirements Json
+  createdAt DateTime @default(now())
+
+  applications Application[]
+  bookmarks Bookmark[]
+}
+
+model Application {
+  id String @id @default(cuid())
+  userId String
+  scholarshipId String
+  status AppStatus @default(SAVED)
+  notes String?
+  submittedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scholarship Scholarship @relation(fields: [scholarshipId], references: [id], onDelete: Cascade)
+}
+
+model Bookmark {
+  id String @id @default(cuid())
+  userId String
+  scholarshipId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scholarship Scholarship @relation(fields: [scholarshipId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, scholarshipId])
+}
+
+model Document {
+  id String @id @default(cuid())
+  userId String
+  type String
+  url String
+  name String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum AppStatus {
+  SAVED
+  IN_PROGRESS
+  SUBMITTED
+  ACCEPTED
+  REJECTED
+}
