@@ -1,0 +1,38 @@
+*Vercel Web Analytics Setup*
+
+The Vercel Web Analytics has been successfully installed and configured for this Next.js App Router project.
+
+**Installation Steps Completed:**
+
+1. **Package Installation:**
+   - Installed `@vercel/analytics@1.6.1` via npm
+   - Package added to package.json dependencies
+
+2. **Analytics Integration:**
+   - Added Analytics component to `src/app/layout.tsx` (root layout)
+   - Import statement: `import { Analytics } from '@vercel/analytics/next';`
+   - Component placed in the `<body>` tag: `<Analytics />`
+
+3. **Configuration:**
+   - Following Next.js App Router best practices from official Vercel documentation
+   - Analytics component is loaded globally for all pages
+   - No additional configuration required - works automatically when deployed to Vercel
+
+**To Enable Analytics:**
+
+1. Deploy this project to Vercel
+2. Navigate to your project's Analytics section in the Vercel dashboard
+3. Click the "Enable" button to activate analytics tracking
+4. Analytics will start tracking page views automatically
+
+**Verification:**
+
+After deployment, you can verify analytics is working by:
+- Checking the browser Network tab for requests to `/_vercel/insights/*`
+- Viewing the Analytics dashboard in your Vercel project settings
+
+**Framework:** Next.js 14 (App Router)
+**Package Manager:** npm
+**Analytics Package Version:** 1.6.1
+
+The implementation follows the official Vercel documentation and Next.js App Router conventions.
