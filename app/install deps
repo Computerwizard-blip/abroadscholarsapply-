@@ -1,0 +1,2 @@
+npm i prisma @prisma/client next-auth
+npm i -D prisma
