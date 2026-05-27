@@ -1,0 +1,3 @@
+DATABASE_URL="postgresql://user:pass@localhost:5432/abroadscholarship"
+NEXTAUTH_SECRET="your-secret"
+NEXTAUTH_URL="http://localhost:3000"
