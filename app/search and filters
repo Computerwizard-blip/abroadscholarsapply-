@@ -1,0 +1,50 @@
+import { prisma } from "@/lib/prisma"
+import ScholarshipCard from "@/components/ScholarshipCard"
+
+export default async function SearchPage({ searchParams }: { searchParams: { country?: string; level?: string } }) {
+  const scholarships = await prisma.scholarship.findMany({
+    where: {
+      deadline: { gte: new Date() },
+      country: searchParams.country || undefined,
+      degreeLevel: searchParams.level || undefined,
+    },
+    orderBy: { deadline: "asc" },
+    take: 24
+  })
+
+  return (
+    <main className="max-w-6xl mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold mb-6">Browse Scholarships</h1>
+
+      <div className="grid md:grid-cols-4 gap-6">
+        <aside className="border rounded-lg p-4 h-fit">
+          <h3 className="font-semibold mb-3">Filters</h3>
+          <form>
+            <label className="block text-sm mb-2">Country</label>
+            <select name="country" className="w-full border rounded p-2 mb-4">
+              <option value="">All</option>
+              <option value="USA">USA</option>
+              <option value="UK">UK</option>
+              <option value="Canada">Canada</option>
+              <option value="Australia">Australia</option>
+            </select>
+
+            <label className="block text-sm mb-2">Degree Level</label>
+            <select name="level" className="w-full border rounded p-2">
+              <option value="">All</option>
+              <option value="Bachelors">Bachelors</option>
+              <option value="Masters">Masters</option>
+              <option value="PhD">PhD</option>
+            </select>
+
+            <button className="w-full mt-4 bg-primary text-primary-foreground py-2 rounded">Apply</button>
+          </form>
+        </aside>
+
+        <div className="md:col-span-3 grid sm:grid-cols-2 gap-4">
+          {scholarships.map(s => <ScholarshipCard key={s.id} scholarship={s} />)}
+        </div>
+      </div>
+    </main>
+  )
+}
