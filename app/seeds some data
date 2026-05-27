@@ -1,0 +1,3 @@
+*4. Seed some data*
+
+Create `prisma/seed.ts` and run `npx tsx prisma/seed.ts` to add test scholarships.
